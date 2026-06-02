@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Ablation Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 40px auto; padding: 0 20px; background: #f9f9f7; color: #1a1a1a; }
+    h1 { font-size: 1.6rem; margin-bottom: 4px; }
+    .subtitle { color: #666; margin-bottom: 28px; font-size: 0.95rem; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    th { background: #f0f0ec; padding: 12px 14px; text-align: left; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; color: #555; cursor: pointer; user-select: none; }
+    th:hover { background: #e4e4e0; }
+    td { padding: 12px 14px; border-bottom: 1px solid #f0f0ec; font-size: 0.95rem; }
+    tr:last-child td { border-bottom: none; }
+    tr.best td { background: #f0faf4; font-weight: 600; }
+    .bar { display: inline-block; height: 10px; background: #0b6b6f; border-radius: 4px; margin-left: 8px; vertical-align: middle; opacity: 0.7; }
+    .chart-wrap { background: white; border-radius: 10px; padding: 24px; margin-top: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .refresh { margin-bottom: 16px; font-size: 0.88rem; color: #888; }
+    .tag { background: #e8f4f5; color: #0b6b6f; border-radius: 99px; padding: 2px 8px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <h1>RAG Ablation Dashboard</h1>
+  <p class="subtitle">SciFact · sorted by MRR · <span id="timestamp"></span></p>
+  <p class="refresh">Auto-refreshes every 30s. Run <code>python experiments/run_ablations.py</code> to add rows.</p>
+
+  <table id="results-table">
+    <thead>
+      <tr>
+        <th onclick="sortBy('name')">Experiment</th>
+        <th onclick="sortBy('Recall@1')">Recall@1</th>
+        <th onclick="sortBy('Recall@5')">Recall@5</th>
+        <th onclick="sortBy('Recall@10')">Recall@10</th>
+        <th onclick="sortBy('MRR')">MRR ↓</th>
+        <th onclick="sortBy('latency_s')">Latency (s)</th>
+        <th>Flags</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <div class="chart-wrap">
+    <canvas id="chart" height="90"></canvas>
+  </div>
+
+  <script>
+    let allData = [];
+    let sortKey = 'MRR';
+    let sortDir = -1;
+    let chart;
+
+    function sortBy(key) {
+      if (sortKey === key) sortDir *= -1;
+      else { sortKey = key; sortDir = -1; }
+      render(allData);
+    }
+
+    function render(data) {
+      const sorted = [...data].sort((a, b) => {
+        const av = sortKey === 'name' ? a.name : (a.metrics[sortKey] ?? 0);
+        const bv = sortKey === 'name' ? b.name : (b.metrics[sortKey] ?? 0);
+        return sortDir * (av > bv ? 1 : -1);
+      });
+
+      const bestMRR = Math.max(...data.map(d => d.metrics.MRR ?? 0));
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+
+      sorted.forEach(row => {
+        const m = row.metrics;
+        const isBest = m.MRR === bestMRR;
+        const tr = document.createElement('tr');
+        if (isBest) tr.className = 'best';
+        const barW = v => `<span class="bar" style="width:${Math.round(v*80)}px"></span>`;
+        tr.innerHTML = `
+          <td>${row.name}${isBest ? ' 🏆' : ''}</td>
+          <td>${(m['Recall@1']??'—')}${barW(m['Recall@1']??0)}</td>
+          <td>${(m['Recall@5']??'—')}${barW(m['Recall@5']??0)}</td>
+          <td>${(m['Recall@10']??'—')}${barW(m['Recall@10']??0)}</td>
+          <td><strong>${(m.MRR??'—')}</strong>${barW(m.MRR??0)}</td>
+          <td>${m.latency_s ?? '—'}s</td>
+          <td>
+            ${row.config.hybrid ? '<span class="tag">hybrid</span>' : ''}
+            ${row.config.rerank ? '<span class="tag">rerank</span>' : ''}
+          </td>`;
+        tbody.appendChild(tr);
+      });
+
+      updateChart(sorted);
+    }
+
+    function updateChart(data) {
+      const labels = data.map(d => d.name);
+      const mrr    = data.map(d => d.metrics.MRR ?? 0);
+      const r10    = data.map(d => d.metrics['Recall@10'] ?? 0);
+
+      if (chart) chart.destroy();
+      chart = new Chart(document.getElementById('chart'), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: 'MRR',       data: mrr, backgroundColor: '#0b6b6f99' },
+            { label: 'Recall@10', data: r10, backgroundColor: '#9a5b1399' },
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { min: 0, max: 1 } },
+          plugins: { legend: { position: 'top' } }
+        }
+      });
+    }
+
+    async function fetchAndRender() {
+      try {
+        const res = await fetch('../experiments/results.json?t=' + Date.now());
+        allData = await res.json();
+        document.getElementById('timestamp').textContent = 'last updated ' + new Date().toLocaleTimeString();
+        render(allData);
+      } catch(e) {
+        document.getElementById('timestamp').textContent = 'waiting for results.json...';
+      }
+    }
+
+    fetchAndRender();
+    setInterval(fetchAndRender, 30000);
+  </script>
+</body>
+</html>
