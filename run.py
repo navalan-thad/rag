@@ -1,11 +1,14 @@
+import config
+
 from ingestion.loader import load_scifact
 from ingestion.cleaner import build_clean_corpus
 from chunking.chunkers import chunk_whole
 from retrieval.embedder import Embedder
 from retrieval.indexer import FaissIndex
 from retrieval.retriever import DenseRetriever
-from eval.metrics import evaluate, log_failures
-import numpy as np
+from eval.metrics import evaluate
+from eval.metrics import categorize_failures
+
 
 corpus, queries, qrels = load_scifact()
 docs = build_clean_corpus(corpus)
@@ -23,9 +26,9 @@ retriever = DenseRetriever(embedder, index, chunks)
 results = evaluate(retriever, queries, qrels, k_values=[1, 5, 10])
 print(results)
 
-failures = log_failures(retriever, queries, qrels, n=20)
-for f in failures:
-    print("\n--- FAILURE ---")
-    print(f"Query:    {f['query']}")
-    print(f"Relevant: {f['relevant_docs']}")
-    print(f"Got:      {f['retrieved']}")
+failure_report = categorize_failures(retriever, queries, qrels, corpus, n=60)
+for category, cases in failure_report.items():
+    print(f"\n{category.upper()} ({len(cases)} cases)")
+    for f in cases[:3]:
+        print(f"  Query: {f['query']}")
+        print(f"  Score: {f['top_score']:.3f}")

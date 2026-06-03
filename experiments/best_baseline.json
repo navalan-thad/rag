@@ -1,0 +1,18 @@
+{
+  "name": "pubmedbert",
+  "config": {
+    "name": "pubmedbert",
+    "chunker": "whole",
+    "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+    "batch_size": 16,
+    "hybrid": false,
+    "rerank": false
+  },
+  "metrics": {
+    "Recall@1": 0.5567,
+    "Recall@5": 0.77,
+    "Recall@10": 0.8233,
+    "MRR": 0.6454,
+    "latency_s": 21.79
+  }
+}

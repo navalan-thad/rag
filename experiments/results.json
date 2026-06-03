@@ -69,5 +69,77 @@
       "MRR": 0.6454,
       "latency_s": 21.79
     }
+  },
+  {
+    "name": "multi_qa_mpnet",
+    "config": {
+      "name": "multi_qa_mpnet",
+      "chunker": "whole",
+      "model": "multi-qa-mpnet-base-dot-v1",
+      "hybrid": false,
+      "rerank": false,
+      "batch_size": 32
+    },
+    "metrics": {
+      "Recall@1": 0.4567,
+      "Recall@5": 0.6833,
+      "Recall@10": 0.7467,
+      "MRR": 0.5549,
+      "latency_s": 33.53
+    }
+  },
+  {
+    "name": "hybrid_rrf",
+    "config": {
+      "name": "hybrid_rrf",
+      "chunker": "whole",
+      "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+      "hybrid": true,
+      "rerank": false,
+      "batch_size": 16
+    },
+    "metrics": {
+      "Recall@1": 0.5433,
+      "Recall@5": 0.77,
+      "Recall@10": 0.8233,
+      "MRR": 0.6371,
+      "latency_s": 30.58
+    }
+  },
+  {
+    "name": "hybrid_rerank",
+    "config": {
+      "name": "hybrid_rerank",
+      "chunker": "whole",
+      "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+      "hybrid": true,
+      "rerank": true,
+      "batch_size": 16
+    },
+    "metrics": {
+      "Recall@1": 0.5267,
+      "Recall@5": 0.73,
+      "Recall@10": 0.8167,
+      "MRR": 0.6211,
+      "latency_s": 5103.23
+    }
+  },
+  {
+    "name": "chunk_fixed_200",
+    "config": {
+      "name": "chunk_fixed_200",
+      "chunker": "fixed",
+      "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+      "hybrid": true,
+      "rerank": true,
+      "batch_size": 16
+    },
+    "metrics": {
+      "Recall@1": 0.55,
+      "Recall@5": 0.7533,
+      "Recall@10": 0.8267,
+      "MRR": 0.6433,
+      "latency_s": 149.02
+    }
   }
 ]
