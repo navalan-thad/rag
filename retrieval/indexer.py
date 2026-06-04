@@ -1,6 +1,8 @@
 import faiss
 import numpy as np
 
+faiss.omp_set_num_threads(1)
+
 class FaissIndex:
     def __init__(self, dim: int):
         self.index = faiss.IndexFlatIP(dim)  # inner product = cosine on normalized vecs

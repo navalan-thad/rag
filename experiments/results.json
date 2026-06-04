@@ -141,5 +141,23 @@
       "MRR": 0.6433,
       "latency_s": 149.02
     }
+  },
+  {
+    "name": "chunk_sent_5",
+    "config": {
+      "name": "chunk_sent_5",
+      "chunker": "sent",
+      "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+      "hybrid": true,
+      "rerank": true,
+      "batch_size": 16
+    },
+    "metrics": {
+      "Recall@1": 0.5533,
+      "Recall@5": 0.7833,
+      "Recall@10": 0.85,
+      "MRR": 0.654,
+      "latency_s": 210.85
+    }
   }
 ]

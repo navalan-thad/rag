@@ -1,18 +1,18 @@
 {
-  "name": "pubmedbert",
+  "name": "chunk_sent_5",
   "config": {
-    "name": "pubmedbert",
-    "chunker": "whole",
+    "name": "chunk_sent_5",
+    "chunker": "sent",
     "model": "pritamdeka/S-PubMedBert-MS-MARCO",
-    "batch_size": 16,
-    "hybrid": false,
-    "rerank": false
+    "hybrid": true,
+    "rerank": true,
+    "batch_size": 16
   },
   "metrics": {
-    "Recall@1": 0.5567,
-    "Recall@5": 0.77,
-    "Recall@10": 0.8233,
-    "MRR": 0.6454,
-    "latency_s": 21.79
+    "Recall@1": 0.5533,
+    "Recall@5": 0.7833,
+    "Recall@10": 0.85,
+    "MRR": 0.654,
+    "latency_s": 210.85
   }
 }

@@ -22,6 +22,7 @@ frozenlist==1.8.0
 fsspec==2026.2.0
 h11==0.16.0
 hf-xet==1.5.0
+hf_transfer==0.1.9
 httpcore==1.0.9
 httpx==0.28.1
 huggingface_hub==0.36.2
@@ -57,9 +58,11 @@ pure_eval==0.2.3
 pyarrow==24.0.0
 Pygments==2.20.0
 python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
 pytrec_eval-terrier==0.5.10
 PyYAML==6.0.3
 pyzmq==27.1.0
+rank-bm25==0.2.2
 regex==2026.5.9
 requests==2.34.2
 rich==15.0.0
