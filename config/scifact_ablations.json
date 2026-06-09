@@ -1,0 +1,66 @@
+[
+    {
+        "name": "baseline",
+        "chunker": "whole",
+        "model": "all-MiniLM-L6-v2",
+        "hybrid": false,
+        "rerank": false,
+        "batch_size": 64
+    },
+    {
+        "name": "specter",
+        "chunker": "whole",
+        "model": "allenai-specter",
+        "hybrid": false,
+        "rerank": false,
+        "batch_size": 32
+    },
+    {
+        "name": "multi_qa_mpnet",
+        "chunker": "whole",
+        "model": "multi-qa-mpnet-base-dot-v1",
+        "hybrid": false,
+        "rerank": false,
+        "batch_size": 32
+    },
+    {
+        "name": "pubmedbert",
+        "chunker": "whole",
+        "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+        "hybrid": false,
+        "rerank": false,
+        "batch_size": 16
+    },
+    {
+        "name": "hybrid_rrf",
+        "chunker": "whole",
+        "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+        "hybrid": true,
+        "rerank": false,
+        "batch_size": 16
+    },
+    {
+        "name": "hybrid_rerank",
+        "chunker": "whole",
+        "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+        "hybrid": true,
+        "rerank": true,
+        "batch_size": 16
+    },
+    {
+        "name": "chunk_fixed_200",
+        "chunker": "fixed",
+        "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+        "hybrid": true,
+        "rerank": true,
+        "batch_size": 16
+    },
+    {
+        "name": "chunk_sent_5",
+        "chunker": "sent",
+        "model": "pritamdeka/S-PubMedBert-MS-MARCO",
+        "hybrid": true,
+        "rerank": true,
+        "batch_size": 16
+    }
+]

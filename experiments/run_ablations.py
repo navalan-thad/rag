@@ -19,21 +19,12 @@ if torch.backends.mps.is_available():
     torch.mps.empty_cache()
 gc.collect()
 
-CONFIGS = [
-    # embedding model ablations (dense only)
-    {"name": "baseline",        "chunker": "whole", "model": "all-MiniLM-L6-v2",                   "hybrid": False, "rerank": False, "batch_size": 64},
-    {"name": "specter",         "chunker": "whole", "model": "allenai-specter",                     "hybrid": False, "rerank": False, "batch_size": 32},
-    {"name": "multi_qa_mpnet",  "chunker": "whole", "model": "multi-qa-mpnet-base-dot-v1",          "hybrid": False, "rerank": False, "batch_size": 32},
-    {"name": "pubmedbert",      "chunker": "whole", "model": "pritamdeka/S-PubMedBert-MS-MARCO",    "hybrid": False, "rerank": False, "batch_size": 16},
+CONFIGS_PATH = Path("config/scifact_ablations.json")
 
-    # retrieval strategy ablations (best model)
-    {"name": "hybrid_rrf",      "chunker": "whole", "model": "pritamdeka/S-PubMedBert-MS-MARCO",    "hybrid": True,  "rerank": False, "batch_size": 16},
-    {"name": "hybrid_rerank",   "chunker": "whole", "model": "pritamdeka/S-PubMedBert-MS-MARCO",    "hybrid": True,  "rerank": True,  "batch_size": 16},
-
-    # chunking ablations (best model + best retrieval)
-    {"name": "chunk_fixed_200", "chunker": "fixed", "model": "pritamdeka/S-PubMedBert-MS-MARCO",    "hybrid": True,  "rerank": True,  "batch_size": 16},
-    {"name": "chunk_sent_5",    "chunker": "sent",  "model": "pritamdeka/S-PubMedBert-MS-MARCO",    "hybrid": True,  "rerank": True,  "batch_size": 16},
-]
+if CONFIGS_PATH.exists():
+    CONFIGS = json.loads(CONFIGS_PATH.read_text())
+else:
+    raise FileNotFoundError(f"Config file not found: {CONFIGS_PATH}")
 
 CHUNKER_MAP = {
     "whole": chunk_whole,
