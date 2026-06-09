@@ -1,0 +1,125 @@
+{
+  "faithfulness": 0.05,
+  "per_question": [
+    {
+      "question": "Chenodeosycholic acid treatment increases whole-body energy expenditure.",
+      "answer": "Yes, according to [2], whole-body energy expenditure was increased upon CDCA treatment.",
+      "source_ids": [
+        "1568684_0",
+        "1568684_5",
+        "31564409_10",
+        "19205437_5",
+        "14865329_0"
+      ],
+      "ground_truth": "The Bile Acid Chenodeoxycholic Acid Increases Human Brown Adipose Tissue Activity. The interest in brown adipose tissue (BAT) as a target to combat metabolic disease has recently been renewed with the discovery of functional BAT in humans. In rodents, BAT can be activated by bile acids, which activate type 2 iodothyronine deiodinase (D2) in BAT via the G-coupled protein receptor TGR5, resulting in increased oxygen consumption and energy expenditure. Here we examined the effects of oral supplementation of the bile acid chenodeoxycholic acid (CDCA) on human BAT activity. Treatment of 12 healthy female subjects with CDCA for 2 days resulted in increased BAT activity. Whole-body energy expenditure was also increased upon CDCA treatment. In vitro treatment of primary human brown adipocytes derived with CDCA or specific TGR5 agonists increased mitochondrial uncoupling and D2 expression, an effect that was absent in human primary white adipocytes. These findings identify bile acids as a target to activate BAT in humans."
+    },
+    {
+      "question": "APOE4 expression in iPSC-derived neurons increases AlphaBeta production and tau phosphorylation causing GABA neuron degeneration.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "8892905_0",
+        "4709641_0",
+        "4709641_5",
+        "4459491_0",
+        "37450671_0"
+      ],
+      "ground_truth": "Gain of toxic Apolipoprotein E4 effects in Human iPSC-Derived Neurons Is Ameliorated by a Small-Molecule Structure Corrector Efforts to develop drugs for Alzheimer's disease (AD) have shown promise in animal studies, only to fail in human trials, suggesting a pressing need to study AD in human model systems. Using human neurons derived from induced pluripotent stem cells that expressed apolipoprotein E4 (ApoE4), a variant of the APOE gene product and the major genetic risk factor for AD, we demonstrated that ApoE4-expressing neurons had higher levels of tau phosphorylation, unrelated to their increased production of amyloid-\u03b2 (A\u03b2) peptides, and that they displayed GABAergic neuron degeneration. ApoE4 increased A\u03b2 production in human, but not in mouse, neurons. Converting ApoE4 to ApoE3 by gene editing rescued these phenotypes, indicating the specific effects of ApoE4. Neurons that lacked APOE behaved similarly to those expressing ApoE3, and the introduction of ApoE4 expression recapitulated the pathological phenotypes, suggesting a gain of toxic effects from ApoE4. Treatment of ApoE4-expressing neurons with a small-molecule structure corrector ameliorated the detrimental effects, thus showing that correcting the pathogenic conformation of ApoE4 is a viable therapeutic approach for ApoE4-related AD."
+    },
+    {
+      "question": "Integrating classroom-based collaborative learning with Web-based collaborative learning leads to subpar class performance",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "12789595_5",
+        "12789595_0",
+        "12789595_10",
+        "2475059_15",
+        "2475059_10"
+      ],
+      "ground_truth": "Computer assisted learning in undergraduate medical education. It is becoming \u201ca truth universally acknowledged\u201d that the education of undergraduate medical students will be enhanced through the use of computer assisted learning. Access to the wide range of online options illustrated in the figure must surely make learning more exciting, effective, and likely to be retained. This assumption is potentially but by no means inevitably correct. ### Box 1: Why fund computer assisted learning? Computer assisted learning is inevitable \u2014Individual lecturers and departments are already beginning to introduce a wide range of computer based applications, sometimes in a haphazard way. Planned and coordinated development is better than indiscriminate expansion  It is convenient and flexible \u2014Courses supported by computer assisted learning applications may require fewer face to face lectures and seminars and place fewer geographical and temporal constraints on staff and students. Students at peripheral hospitals or primary care centres may benefit in particular  Unique presentational benefits \u2014Computer presentation is particularly suited to subjects that are visually intensive, detail oriented, and difficult to conceptualise, such as complex biochemical processes or microscopic images.1 Furthermore, \u201cvirtual\u201d cases may reduce the need to use animal or human tissue in learning  Personalised learning \u2014Each learner can progress at his or her preferred pace. They can repeat, interrupt, and resume at will, which may have particular advantages for weaker students  Economies of scale \u2014Once an application has been set up, the incremental cost of offering it to additional students is relatively small  Competitive advantage \u2014Potential applicants may use the quality of information technology to discriminate between medical schools. A \u201cleading edge\u201d virtual campus is likely to attract good students  Achieves the ultimate goal of higher education \u2014The goal is to link people into learning communities. Computer applications, especially the internet and world wide web, are an extremely efficient way of doing this2  Expands pedagogical horizons \u2014The most controversial argument for \u2026 RETURN TO TEXT"
+    },
+    {
+      "question": "In mice, P. chabaudi parasites are able to proliferate faster early in infection when inoculated at lower numbers than when inoculated at high numbers.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "21392703_5",
+        "26474812_5",
+        "8133050_5",
+        "5289038_0",
+        "40900567_5"
+      ],
+      "ground_truth": "Partitioning regulatory mechanisms of within-host malaria dynamics using the effective propagation number. Immune clearance and resource limitation (via red blood cell depletion) shape the peaks and troughs of malaria parasitemia, which in turn affect disease severity and transmission. Quantitatively partitioning the relative roles of these effects through time is challenging. Using data from rodent malaria, we estimated the effective propagation number, which reflects the relative importance of contrasting within-host control mechanisms through time and is sensitive to the inoculating parasite dose. Our analysis showed that the capacity of innate responses to restrict initial parasite growth saturates with parasite dose and that experimentally enhanced innate immunity can affect parasite density indirectly via resource depletion. Such a statistical approach offers a tool to improve targeting of drugs or vaccines for human therapy by revealing the dynamics and interactions of within-host regulatory mechanisms."
+    },
+    {
+      "question": "Hypocretin neurones induce panicprone state in rats.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "16056514_0",
+        "16056514_5",
+        "41911192_0",
+        "649951_5",
+        "20764484_5"
+      ],
+      "ground_truth": "A KEY ROLE FOR OREXIN IN PANIC ANXIETY Panic disorder is a severe anxiety disorder with recurrent, debilitating panic attacks. In individuals with panic disorder there is evidence of decreased central gamma-aminobutyric acid (GABA) activity as well as marked increases in autonomic and respiratory responses after intravenous infusions of hypertonic sodium lactate. In a rat model of panic disorder, chronic inhibition of GABA synthesis in the dorsomedial-perifornical hypothalamus of rats produces anxiety-like states and a similar vulnerability to sodium lactate-induced cardioexcitatory responses. The dorsomedial-perifornical hypothalamus is enriched in neurons containing orexin (ORX, also known as hypocretin), which have a crucial role in arousal, vigilance and central autonomic mobilization, all of which are key components of panic. Here we show that activation of ORX-synthesizing neurons is necessary for developing a panic-prone state in the rat panic model, and either silencing of the hypothalamic gene encoding ORX (Hcrt) with RNAi or systemic ORX-1 receptor antagonists blocks the panic responses. Moreover, we show that human subjects with panic anxiety have elevated levels of ORX in the cerebrospinal fluid compared to subjects without panic anxiety. Taken together, our results suggest that the ORX system may be involved in the pathophysiology of panic anxiety and that ORX antagonists constitute a potential new treatment strategy for panic disorder."
+    },
+    {
+      "question": "Deamination of cytidine to uridine on the minus strand of viral DNA results in catastrophic G-to-A mutations in the viral genome.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "544971_0",
+        "2638387_0",
+        "4347374_5",
+        "2638387_5",
+        "7029990_0"
+      ],
+      "ground_truth": "Broad antiretroviral defence by human APOBEC3G through lethal editing of nascent reverse transcripts Viral replication usually requires that innate intracellular lines of defence be overcome, a task usually accomplished by specialized viral gene products. The virion infectivity factor (Vif) protein of human immunodeficiency virus (HIV) is required during the late stages of viral production to counter the antiviral activity of APOBEC3G (apolipoprotein B mRNA-editing enzyme, catalytic polypeptide-like 3G; also known as CEM15), a protein expressed notably in human T lymphocytes. When produced in the presence of APOBEC3G, vif-defective virus is non-infectious. APOBEC3G is closely related to APOBEC1, the central component of an RNA-editing complex that deaminates a cytosine residue in apoB messenger RNA. APOBEC family members also have potent DNA mutator activity through dC deamination; however, whether the editing potential of APOBEC3G has any relevance to HIV inhibition is unknown. Here, we demonstrate that it does, as APOBEC3G exerts its antiviral effect during reverse transcription to trigger G-to-A hypermutation in the nascent retroviral DNA. We also find that APOBEC3G can act on a broad range of retroviruses in addition to HIV, suggesting that hypermutation by editing is a general innate defence mechanism against this important group of pathogens."
+    },
+    {
+      "question": "Cell autonomous sex determination in somatic cells does not occur in Galliformes.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "4388470_0",
+        "41380943_0",
+        "16963081_0",
+        "13910150_5",
+        "4388470_5"
+      ],
+      "ground_truth": "Somatic sex identity is cell-autonomous in the chicken In the mammalian model of sex determination, embryos are considered to be sexually indifferent until the transient action of a sex-determining gene initiates gonadal differentiation. Although this model is thought to apply to all vertebrates, this has yet to be established. Here we have examined three lateral gynandromorph chickens (a rare, naturally occurring phenomenon in which one side of the animal appears male and the other female) to investigate the sex-determining mechanism in birds. These studies demonstrated that gynandromorph birds are genuine male:female chimaeras, and indicated that male and female avian somatic cells may have an inherent sex identity. To test this hypothesis, we transplanted presumptive mesoderm between embryos of reciprocal sexes to generate embryos containing male:female chimaeric gonads. In contrast to the outcome for mammalian mixed-sex chimaeras, in chicken mixed-sex chimaeras the donor cells were excluded from the functional structures of the host gonad. In an example where female tissue was transplanted into a male host, donor cells contributing to the developing testis retained a female identity and expressed a marker of female function. Our study demonstrates that avian somatic cells possess an inherent sex identity and that, in birds, sexual differentiation is substantively cell autonomous."
+    },
+    {
+      "question": "Tirasemtiv has no effect on fast-twitch muscle.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "1275505_5",
+        "7116734_10",
+        "22505190_10",
+        "30543439_5",
+        "25858295_5"
+      ],
+      "ground_truth": "Activation of fast skeletal muscle troponin as a potential therapeutic approach for treating neuromuscular diseases Limited neural input results in muscle weakness in neuromuscular disease because of a reduction in the density of muscle innervation, the rate of neuromuscular junction activation or the efficiency of synaptic transmission. We developed a small-molecule fast-skeletal-troponin activator, CK-2017357, as a means to increase muscle strength by amplifying the response of muscle when neural input is otherwise diminished secondary to neuromuscular disease. Binding selectively to the fast-skeletal-troponin complex, CK-2017357 slows the rate of calcium release from troponin C and sensitizes muscle to calcium. As a consequence, the force-calcium relationship of muscle fibers shifts leftwards, as does the force-frequency relationship of a nerve-muscle pair, so that CK-2017357 increases the production of muscle force in situ at sub-maximal nerve stimulation rates. Notably, we show that sensitization of the fast-skeletal-troponin complex to calcium improves muscle force and grip strength immediately after administration of single doses of CK-2017357 in a model of the neuromuscular disease myasthenia gravis. Troponin activation may provide a new therapeutic approach to improve physical activity in diseases where neuromuscular function is compromised."
+    },
+    {
+      "question": "CR is associated with higher methylation age.",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "9291668_5",
+        "9291668_0",
+        "22038539_5",
+        "22038539_0",
+        "4679264_5"
+      ],
+      "ground_truth": "Caloric restriction delays age-related methylation drift In mammals, caloric restriction consistently results in extended lifespan. Epigenetic information encoded by DNA methylation is tightly regulated, but shows a striking drift associated with age that includes both gains and losses of DNA methylation at various sites. Here, we report that epigenetic drift is conserved across species and the rate of drift correlates with lifespan when comparing mice, rhesus monkeys, and humans. Twenty-two to 30-year-old rhesus monkeys exposed to 30% caloric restriction since 7-14 years of age showed attenuation of age-related methylation drift compared to ad libitum-fed controls such that their blood methylation age appeared 7 years younger than their chronologic age. Even more pronounced effects were seen in 2.7-3.2-year-old mice exposed to 40% caloric restriction starting at 0.3 years of age. The effects of caloric restriction on DNA methylation were detectable across different tissues and correlated with gene expression. We propose that epigenetic drift is a determinant of lifespan in mammals. Caloric restriction has been shown to increase lifespan in mammals. Here, the authors provide evidence that age-related methylation drift correlates with lifespan and that caloric restriction in mice and rhesus monkeys results in attenuation of age-related methylation drift."
+    },
+    {
+      "question": "Rapid phosphotransfer rates govern fidelity in two component systems",
+      "answer": "Insufficient context.",
+      "source_ids": [
+        "1225513_10",
+        "11603066_0",
+        "196664003_5",
+        "1225513_0",
+        "9875570_0"
+      ],
+      "ground_truth": "Using Structural Information to Change the Phosphotransfer Specificity of a Two-Component Chemotaxis Signalling Complex Two-component signal transduction pathways comprising histidine protein kinases (HPKs) and their response regulators (RRs) are widely used to control bacterial responses to environmental challenges. Some bacteria have over 150 different two-component pathways, and the specificity of the phosphotransfer reactions within these systems is tightly controlled to prevent unwanted crosstalk. One of the best understood two-component signalling pathways is the chemotaxis pathway. Here, we present the 1.40 A crystal structure of the histidine-containing phosphotransfer domain of the chemotaxis HPK, CheA(3), in complex with its cognate RR, CheY(6). A methionine finger on CheY(6) that nestles in a hydrophobic pocket in CheA(3) was shown to be important for the interaction and was found to only occur in the cognate RRs of CheA(3), CheY(6), and CheB(2). Site-directed mutagenesis of this methionine in combination with two adjacent residues abolished binding, as shown by surface plasmon resonance studies, and phosphotransfer from CheA(3)-P to CheY(6). Introduction of this methionine and an adjacent alanine residue into a range of noncognate CheYs, dramatically changed their specificity, allowing protein interaction and rapid phosphotransfer from CheA(3)-P. The structure presented here has allowed us to identify specificity determinants for the CheA-CheY interaction and subsequently to successfully reengineer phosphotransfer signalling. In summary, our results provide valuable insight into how cells mediate specificity in one of the most abundant signalling pathways in biology, two-component signal transduction."
+    }
+  ]
+}

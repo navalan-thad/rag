@@ -7,14 +7,15 @@ class BM25Retriever:
         tokenized = [c["text"].lower().split() for c in chunks]
         self.bm25 = BM25Okapi(tokenized)
 
-    def retrieve(self, query: str, top_k=20):
+    def retrieve(self, query: str, top_k: int = 20):
         scores = self.bm25.get_scores(query.lower().split())
-        top_indices = scores.argsort()[::-1][:top_k]
-        return [
-            {
-                "chunk_id": self.chunk_ids[i],
-                "doc_id": self.chunk_to_doc[self.chunk_ids[i]],
-                "score": float(scores[i])
-            }
-            for i in top_indices
-        ]
+        top_indices = scores.argsort()[-top_k:][::-1]
+        hits = []
+        for i in top_indices:
+            cid = self.chunk_ids[i]
+            hits.append({
+                "chunk_id": cid,
+                "doc_id": self.chunk_to_doc[cid],
+                "score": float(scores[i]),
+            })
+        return hits
