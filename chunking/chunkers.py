@@ -56,5 +56,6 @@ def chunk_sentences(docs: List[Dict], max_sentences: int = 5) -> List[Dict]:
                 "chunk_id": f"{doc_id}_{i}",
                 "doc_id": doc_id,
                 "text": chunk_text,
+                "image_path": d.get("image_path"),
             })
     return chunks

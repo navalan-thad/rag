@@ -1,5 +1,6 @@
-from typing import Tuple
-
+from typing import Dict, Tuple
+import numpy as np
+from collections import defaultdict
 from ingestion.loader import load_scifact
 from ingestion.cleaner import build_clean_corpus
 from ingestion.research_loader import load_arxiv_corpus
@@ -11,6 +12,10 @@ from retrieval.retriever import DenseRetriever, HybridRetriever
 from retrieval.bm25_retriever import BM25Retriever
 from retrieval.reranker import Reranker
 from generation.rag_pipeline import RAGPipeline
+from retrieval.multimodal_embedder import MultimodalEmbedder
+
+from retrieval.graph_retriever import GraphRetriever
+from graph.graph_builder import build_knn_graph
 
 
 def build_scifact_dense_retriever(
@@ -105,3 +110,83 @@ def build_arxiv_rag_pipeline(
 
     pipeline = RAGPipeline(retriever=retriever, model=llama_model, top_k=top_k)
     return pipeline, corpus
+
+def build_multimodal_rag_pipeline(
+    corpus: Dict[str, Dict],
+    llama_model: str = "llama3.2:3b",
+    top_k: int = 5,
+) -> RAGPipeline:
+    """
+    Example: build a RAG pipeline over a corpus where docs may have images.
+    """
+    docs = build_clean_corpus(corpus)  # should include image_path if available
+    chunks = chunk_sentences(docs, max_sentences=5)
+
+    embedder = MultimodalEmbedder()
+    embeddings = embedder.embed_chunks(chunks)
+
+    index = FaissIndex(dim=embeddings.shape[1])
+    index.add(embeddings, [c["chunk_id"] for c in chunks])
+
+    retriever = DenseRetriever(embedder=None, index=index, chunks=chunks)  # embedder not used at query time in this simple version
+
+    pipeline = RAGPipeline(retriever=retriever, model=llama_model, top_k=top_k)
+    return pipeline
+
+def build_scifact_graph_rag_pipeline(
+    model_name: str = "pritamdeka/S-PubMedBert-MS-MARCO",
+    chunker: str = "sent",
+    llama_model: str = "llama3.2:3b",
+    top_k: int = 5,
+) -> Tuple[RAGPipeline, dict, dict, dict]:
+    """
+    SciFact RAG pipeline with graph-augmented retrieval.
+    """
+    # Reuse existing helper to get a dense retriever
+    base_retriever, corpus, queries, qrels = build_scifact_dense_retriever(
+        model_name=model_name,
+        chunker=chunker,
+    )
+    chunks = base_retriever.chunks
+    # Assume embeddings were computed when building the retriever, otherwise recompute from texts
+    embedder = Embedder(model_name)
+    texts = [c["text"] for c in chunks]
+    chunk_emb = embedder.embed(texts)  # shape [N_chunks, D], assumed normalized
+
+    # Aggregate by doc_id
+    doc_vecs = defaultdict(list)
+    for c, emb in zip(chunks, chunk_emb):
+        doc_vecs[c["doc_id"]].append(emb)
+    doc_ids = list(doc_vecs.keys())
+    doc_embeddings = np.stack([np.mean(doc_vecs[d], axis=0) for d in doc_ids], axis=0)
+    doc_embeddings = doc_embeddings / (np.linalg.norm(doc_embeddings, axis=1, keepdims=True) + 1e-12)
+
+    doc_neighbors = build_knn_graph(doc_embeddings, doc_ids, k=5)
+    graph_retriever = GraphRetriever(base_retriever, doc_neighbors, chunks)
+
+    pipeline = RAGPipeline(retriever=graph_retriever, model=llama_model, top_k=top_k)
+    return pipeline, corpus, queries, qrels
+
+from generation.agentic_pipeline import AgenticPipeline
+
+def build_scifact_agentic_rag_pipeline(
+    model_name: str = "pritamdeka/S-PubMedBert-MS-MARCO",
+    chunker: str = "sent",
+    llama_model: str = "llama3.2:3b",
+    top_k: int = 5,
+) -> Tuple[AgenticPipeline, dict, dict, dict]:
+    """
+    SciFact RAG pipeline with an agentic query rewriting loop.
+    """
+    base_retriever, corpus, queries, qrels = build_scifact_dense_retriever(
+        model_name=model_name,
+        chunker=chunker,
+    )
+    pipeline = AgenticPipeline(
+        retriever=base_retriever,
+        model=llama_model,
+        top_k=top_k,
+        rewrite_model=llama_model,
+        low_conf_threshold=0.35,
+    )
+    return pipeline, corpus, queries, qrels
