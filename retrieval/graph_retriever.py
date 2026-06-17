@@ -1,10 +1,14 @@
 from typing import Dict, List, Any
+from collections import defaultdict
+
 
 class GraphRetriever:
     """
-    Wraps a base retriever and uses a doc-level graph to expand candidates.
-
-    Expects hits from base_retriever.retrieve(query, top_k) to include 'doc_id' and 'score'.
+    Reranks using a doc-level k-NN graph:
+    1) Get base dense hits.
+    2) Build doc_scores from base hits.
+    3) Propagate scores to neighbor docs.
+    4) Assign doc_scores back to chunks and rank.
     """
 
     def __init__(
@@ -12,8 +16,8 @@ class GraphRetriever:
         base_retriever,
         doc_neighbors: Dict[str, List[str]],  # doc_id -> neighbor doc_ids
         chunks: List[Dict[str, Any]],
-        neighbor_boost: float = 0.5,
-        base_top_k: int = 20,
+        neighbor_boost: float = 0.7,
+        base_top_k: int = 50,
     ):
         self.base_retriever = base_retriever
         self.doc_neighbors = doc_neighbors
@@ -21,7 +25,7 @@ class GraphRetriever:
         self.neighbor_boost = neighbor_boost
         self.base_top_k = base_top_k
 
-        # Build lookup: doc_id -> chunks
+        # doc_id -> chunks
         self._doc_to_chunks: Dict[str, List[Dict[str, Any]]] = {}
         for c in chunks:
             self._doc_to_chunks.setdefault(c["doc_id"], []).append(c)
@@ -29,31 +33,35 @@ class GraphRetriever:
     def retrieve(self, query: str, top_k: int = 10) -> List[Dict[str, Any]]:
         base_hits = self.base_retriever.retrieve(query, top_k=self.base_top_k)
 
-        # Start with base scores at chunk level
-        chunk_scores: Dict[str, float] = {}
+        # 1) aggregate doc_scores from base hits
+        doc_scores = defaultdict(float)
         for h in base_hits:
-            chunk_scores[h["chunk_id"]] = chunk_scores.get(h["chunk_id"], 0.0) + h["score"]
+            doc_scores[h["doc_id"]] = max(doc_scores[h["doc_id"]], h["score"])
 
-        # Expand via graph: for each hit's doc, add neighbors' chunks with discounted score
-        for h in base_hits:
-            doc_id = h["doc_id"]
-            base_score = h["score"]
+        # 2) propagate to neighbors
+        propagated_scores = dict(doc_scores)
+        for doc_id, base_score in doc_scores.items():
             for neighbor_doc in self.doc_neighbors.get(doc_id, []):
-                neighbor_chunks = self._doc_to_chunks.get(neighbor_doc, [])
-                for c in neighbor_chunks:
-                    cid = c["chunk_id"]
-                    chunk_scores[cid] = max(chunk_scores.get(cid, 0.0), base_score * self.neighbor_boost)
+                propagated_scores[neighbor_doc] = max(
+                    propagated_scores.get(neighbor_doc, 0.0),
+                    base_score * self.neighbor_boost,
+                )
 
-        # Turn scores back into hits list
+        # 3) assign scores back to chunks
+        chunk_scores: Dict[str, float] = {}
+        for doc_id, score in propagated_scores.items():
+            for c in self._doc_to_chunks.get(doc_id, []):
+                cid = c["chunk_id"]
+                chunk_scores[cid] = max(chunk_scores.get(cid, 0.0), score)
+
+        # 4) build hits list
         hits: List[Dict[str, Any]] = []
         for c in self.chunks:
             cid = c["chunk_id"]
             if cid in chunk_scores:
-                hits.append({
-                    "chunk_id": cid,
-                    "doc_id": c["doc_id"],
-                    "score": chunk_scores[cid],
-                })
+                hits.append(
+                    {"chunk_id": cid, "doc_id": c["doc_id"], "score": chunk_scores[cid]}
+                )
 
         hits.sort(key=lambda h: h["score"], reverse=True)
         return hits[:top_k]
